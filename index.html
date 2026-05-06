@@ -170,6 +170,80 @@
     .box-8 { grid-column: 3; grid-row: 2; }
     .box-9 { grid-column: 3; grid-row: 3; }
 
+    /* Arrow indicators */
+    .arrow-down,
+    .arrow-up,
+    .arrow-right {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .arrow-down {
+      bottom: -38px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 16px solid #FFD800;
+    }
+
+    .arrow-down::before {
+      content: '';
+      position: absolute;
+      top: -36px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 20px;
+      background: #FFD800;
+    }
+
+    .arrow-up {
+      top: -38px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-bottom: 16px solid #FFD800;
+    }
+
+    .arrow-up::before {
+      content: '';
+      position: absolute;
+      bottom: -36px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 20px;
+      background: #FFD800;
+    }
+
+    .arrow-right {
+      right: -58px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-left: 16px solid #FFD800;
+    }
+
+    .arrow-right::before {
+      content: '';
+      position: absolute;
+      left: -56px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 3px;
+      background: #FFD800;
+    }
+
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -322,17 +396,22 @@
       .map-container {
         grid-template-columns: repeat(2, 260px);
         grid-template-rows: auto;
-        gap: 50px;
+        gap: 60px 50px;
       }
       .box-1 { grid-column: 1; grid-row: 1; }
-      .box-2 { grid-column: 2; grid-row: 1; }
-      .box-3 { grid-column: 1; grid-row: 2; }
-      .box-4 { grid-column: 2; grid-row: 2; }
-      .box-5 { grid-column: 1; grid-row: 3; }
-      .box-6 { grid-column: 2; grid-row: 3; }
-      .box-7 { grid-column: 1; grid-row: 4; }
-      .box-8 { grid-column: 2; grid-row: 4; }
-      .box-9 { grid-column: 1 / span 2; grid-row: 5; justify-self: center; }
+      .box-2 { grid-column: 1; grid-row: 2; }
+      .box-3 { grid-column: 1; grid-row: 3; }
+      .box-4 { grid-column: 1; grid-row: 4; }
+      .box-5 { grid-column: 1; grid-row: 5; }
+      .box-6 { grid-column: 2; grid-row: 1; }
+      .box-7 { grid-column: 2; grid-row: 2; }
+      .box-8 { grid-column: 2; grid-row: 3; }
+      .box-9 { grid-column: 2; grid-row: 4; }
+
+      /* Hide horizontal arrows on mobile, show only vertical */
+      .arrow-right {
+        display: none;
+      }
     }
 
     @media (max-width: 640px) {
@@ -344,16 +423,40 @@
       }
       .map-container {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 50px;
         padding: 1rem;
       }
-      .box-1, .box-2, .box-3, .box-4, .box-5, .box-6, .box-7, .box-8, .box-9 {
+      .box-1, .box-2, .box-3, .box-4, .box-5, .box-6, .box-7, .box-8 {
         grid-column: 1;
       }
+      .box-9 {
+        grid-column: 1;
+      }
+      .box-1 { grid-row: 1; }
+      .box-2 { grid-row: 2; }
+      .box-3 { grid-row: 3; }
+      .box-4 { grid-row: 4; }
+      .box-5 { grid-row: 5; }
+      .box-6 { grid-row: 6; }
+      .box-7 { grid-row: 7; }
+      .box-8 { grid-row: 8; }
+      .box-9 { grid-row: 9; }
+
       .process-box {
         height: auto;
         min-height: 100px;
       }
+
+      /* Change all arrows to down on mobile except last */
+      .arrow-up,
+      .arrow-right {
+        display: none;
+      }
+      
+      .box-9 .arrow-down {
+        display: none;
+      }
+
       .modal-content {
         max-height: 85vh;
       }
@@ -372,66 +475,56 @@
     </div>
 
     <div class="process-map">
-      <svg style="position: absolute; width: 100%; height: 100%; pointer-events: none;" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" class="arrow-marker">
-            <polygon points="0 0, 10 3, 0 6" />
-          </marker>
-        </defs>
-        
-        <!-- Arrows connecting the boxes -->
-        <path d="M 140,90 L 140,180" class="arrow" marker-end="url(#arrowhead)" />
-        <path d="M 140,300 L 140,390" class="arrow" marker-end="url(#arrowhead)" />
-        <path d="M 280,450 L 420,450" class="arrow" marker-end="url(#arrowhead)" />
-        <path d="M 500,390 L 500,300" class="arrow" marker-end="url(#arrowhead)" />
-        <path d="M 500,180 L 500,90" class="arrow" marker-end="url(#arrowhead)" />
-        <path d="M 640,30 L 780,30" class="arrow" marker-end="url(#arrowhead)" />
-        <path d="M 860,90 L 860,180" class="arrow" marker-end="url(#arrowhead)" />
-        <path d="M 860,300 L 860,390" class="arrow" marker-end="url(#arrowhead)" />
-      </svg>
-
       <div class="map-container">
         <!-- Row 1 -->
         <div class="process-box box-1" onclick="openModal(1)">
           <div class="box-number">01</div>
           <div class="box-title">Book a<br>discovery call</div>
+          <div class="arrow-down"></div>
         </div>
 
         <div class="process-box box-6" onclick="openModal(6)">
           <div class="box-number">06</div>
           <div class="box-title">Content<br>approval</div>
+          <div class="arrow-right"></div>
         </div>
 
         <div class="process-box box-7" onclick="openModal(7)">
           <div class="box-number">07</div>
           <div class="box-title">Content<br>scheduling/posting</div>
+          <div class="arrow-down"></div>
         </div>
 
         <!-- Row 2 -->
         <div class="process-box box-2" onclick="openModal(2)">
           <div class="box-number">02</div>
           <div class="box-title">Contract<br>signing</div>
+          <div class="arrow-down"></div>
         </div>
 
         <div class="process-box box-5" onclick="openModal(5)">
           <div class="box-number">05</div>
           <div class="box-title">Content<br>creation</div>
+          <div class="arrow-up"></div>
         </div>
 
         <div class="process-box box-8" onclick="openModal(8)">
           <div class="box-number">08</div>
           <div class="box-title">Strategy<br>execution</div>
+          <div class="arrow-down"></div>
         </div>
 
         <!-- Row 3 -->
         <div class="process-box box-3" onclick="openModal(3)">
           <div class="box-number">03</div>
           <div class="box-title">Client<br>onboarding</div>
+          <div class="arrow-right"></div>
         </div>
 
         <div class="process-box box-4" onclick="openModal(4)">
           <div class="box-number">04</div>
           <div class="box-title">Strategy<br>presentation</div>
+          <div class="arrow-up"></div>
         </div>
 
         <div class="process-box box-9" onclick="openModal(9)">
